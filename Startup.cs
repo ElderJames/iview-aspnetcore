@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +32,10 @@ namespace iview_aspnetcore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
+                // app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                // {
+                //     HotModuleReplacement = true
+                // });
             }
             else
             {
@@ -44,16 +45,24 @@ namespace iview_aspnetcore
             app.UseStaticFiles();
             app.UseDefaultFiles();
 
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode >= 400)
+                {
+                    context.Response.StatusCode = 200;
+                    await context.Response.SendFileAsync("wwwroot/index.html");
+                }
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
             });
+
+
         }
     }
 }

@@ -33,16 +33,16 @@
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec Command="npm install" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --progress --hide-modules --config build/webpack.prod.config.js" />
-    <Exec Command="node node_modules/webpack/bin/webpack.js --env.prod" />
+    <!-- <Exec Command="node node_modules/webpack/bin/webpack.js" /> -->
 
     <!-- Include the newly-built files in the publish output -->
-    <ItemGroup>
+    <!-- <ItemGroup>
       <DistFiles Include="wwwroot\dist\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>
-    </ItemGroup>
+    </ItemGroup> -->
   </Target>
 
 </Project>
