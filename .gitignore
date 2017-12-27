@@ -69,7 +69,7 @@ npm-debug.log.*
 [Rr]eleases/
 x64/
 x86/
-build/
+# build/
 bld/
 bin/
 Bin/
@@ -309,3 +309,4 @@ coverage/
 package-lock.json
 wwwroot/dist
 wwwroot/index.html
+wwwroot/*.ico
